@@ -2,7 +2,7 @@ import studyPlan from '../models/StudyPlan.js';
 
 //destroy object received from frontend
 export const createStudyPlan = async (req, res) => {
-    const { planName, startDate, endDate, description, specialConstrains, aiSuggestions } = req.body;
+    const { planName, startDate, endDate, description, specialConstraints, aiSuggestion } = req.body;
 
 
     if (!planName || !startDate || !endDate || !description) {
@@ -16,11 +16,11 @@ export const createStudyPlan = async (req, res) => {
             startDate,
             endDate,
             description,
-            specialConstrains,
-            aiSuggestions
+            specialConstraints,
+            aiSuggestion
         });
         const savedPlan = await newStudyPlan.save();
-        return res.status(201).json({message: 'plan created successfully'}, savedPlan);
+        return res.status(201).json({ message: 'plan created successfully' }, savedPlan);
 
 
     } catch (error) {
@@ -30,35 +30,35 @@ export const createStudyPlan = async (req, res) => {
 export const getStudyPlans = async (req, res) => {
     try {
         const plans = await studyPlan.find().sort({ createdAt: -1 });
-        return res.status(200).json({message: 'Study plans retrieved successfully', plans  });
+        return res.status(200).json({ message: 'Study plans retrieved successfully', plans });
     } catch (error) {
         return res.status(500).json({ message: 'Error retrieving study plans', error: error.message });
-    }  
-} 
+    }
+}
 
 export const editStudyPlan = async (req, res) => {
     const { id } = req.params;
-    const { planName, startDate, endDate, description, specialConstrains, aiSuggestions } = req.body;
+    const { planName, startDate, endDate, description, specialConstraints, aiSuggestion } = req.body;
 
 
     const ifexist = await studyPlan.findById(id);
-    if(!ifexist){
+    if (!ifexist) {
         return res.status(404).json({ message: 'Study plan not found' });
     }
 
 
-    try{
+    try {
         const updatedPlan = await studyPlan.findByIdAndUpdate(id, {
             planName,
             startDate,
             endDate,
             description,
-            specialConstrains,
-            aiSuggestions
+            specialConstraints,
+            aiSuggestion
         }, { new: true });
 
 
-        return res.status(200).json({message: "plan updated successfully", updatedPlan});
+        return res.status(200).json({ message: "plan updated successfully", updatedPlan });
     } catch (error) {
         return res.status(500).json({ message: 'Error editing study plan', error: error.message });
     }
@@ -68,17 +68,16 @@ export const deleteStudyPlan = async (req, res) => {
 
 
     const ifexist = await studyPlan.findById(id);
-    if(!ifexist){
+    if (!ifexist) {
         return res.status(404).json({ message: 'Study plan not found' });
     }
 
 
-    try{
+    try {
         const deletedPlan = await studyPlan.findByIdAndDelete(id);
-        return res.status(200).json({message: "plan deleted successfully", deletedPlan});
+        return res.status(200).json({ message: "plan deleted successfully", deletedPlan });
     } catch (error) {
         return res.status(500).json({ message: 'Error deleting study plan', error: error.message });
     }
 }
 
-  

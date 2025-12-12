@@ -5,8 +5,8 @@ const studyPlanSchema = new mongoose.Schema({
     startDate: Date,
     endDate: Date,
     description: String,
-    specialConsiderations: String,
-    aiSuggestions: String
+    specialConstraints: String,
+    aiSuggestion: String
 },{ timestamps: true });
 
 export default mongoose.model("StudyPlan", studyPlanSchema);
